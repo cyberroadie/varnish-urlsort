@@ -2,6 +2,7 @@ C{
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <syslog.h>
 
 struct param_node {
   char *value;
@@ -21,10 +22,10 @@ static void insert(Node **tree, Node *item) {
     insert(&(*tree)->right, item);
 }
 
-static void sortparam(Node *tree, char out[]) {
+static void sortparam(Node *tree, char *out) {
   if(tree->right) sortparam(tree->right, out);
   strcat(out, tree->value);
-  strcat(out, "&");
+  strcat(out, "&\0");
   if(tree->left) sortparam(tree->left, out);
 }
 
@@ -32,8 +33,9 @@ static char * urlsort(char *in) {
   Node *root, *current;
   root = NULL;
 
-  char *tok, *result;
-  result = (char*)malloc(sizeof(char));
+  char *tok, *result, *sorted_url;
+  sorted_url = (char*) malloc(strlen(in) + 1);
+  result = (char*) malloc(strlen(in) + 1);
   result = strtok(in, "?");
 
   while(1) {
@@ -46,8 +48,7 @@ static char * urlsort(char *in) {
   }
 
   if(root == NULL) return in;
-  char* sorted_url;
-  sorted_url = (char*)malloc(sizeof(char));
+  sorted_url[0] = 0;
   sortparam(root, sorted_url);
   strcat(result, "?");
   strcat(result, sorted_url);
@@ -59,7 +60,8 @@ static char * urlsort(char *in) {
 sub vcl_recv {
     C{
        const char *url = VRT_r_req_url(sp);
-       char *sorted = urlsort(url);
+       char *urldup = strdup(url);
+       char *sorted = urlsort(urldup);
        VRT_l_req_url(sp, sorted, vrt_magic_string_end);
     }C
 }
