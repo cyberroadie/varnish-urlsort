@@ -37,7 +37,7 @@ static void sortparam(Node *tree, char *out) {
   if(tree->left) sortparam(tree->left, out);
 }
 
-const char * vmod_urlsort(struct sess *sp, const char *in) {
+const char * vmod_sortquery(struct sess *sp, const char *in) {
   Node *root, *current;
   root = NULL;
 
@@ -63,11 +63,3 @@ const char * vmod_urlsort(struct sess *sp, const char *in) {
   strncpy(result, result, strlen(result) - 2); 
   return result;
 }
-
-int main(int argc, char *argv[]) {
-  char *out;
-  out = urlsort(argv[1]);
-  puts(out);
-}
-
-
