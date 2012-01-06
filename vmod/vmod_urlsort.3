@@ -54,6 +54,11 @@ do three separate requests to the backend and cache all of them.
 With this module the three URLs above will all be rewritten with their parameters ordered like this:
 .sp
 http://localhost/test?aaa=111&bbb=222&ccc=333&ddd=444
+.sp
+How it works:
+.sp
+The url get tokenised, the parameters are put in a binary tree and after that an in order traversal gets them out again. 
+Performance of this method is on average O(n log(n)). 
 .SH FUNCTIONS
 .SS sortquery
 .INDENT 0.0
