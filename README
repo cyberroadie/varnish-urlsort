@@ -1,0 +1,7 @@
+
+Contents:
+
+./plain - the urlsort program, and as embedded varnish C code 
+./vmod  - the urlsort program as an actual Varnish module
+
+
