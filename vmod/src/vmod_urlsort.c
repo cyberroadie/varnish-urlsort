@@ -60,6 +60,6 @@ const char * vmod_sortquery(struct sess *sp, const char *in) {
   sortparam(root, sorted_url);
   strcat(result, "?");
   strcat(result, sorted_url);
-  strncpy(result, result, strlen(result) - 2); 
+  result[strlen(result) - 1] = 0;
   return result;
 }
