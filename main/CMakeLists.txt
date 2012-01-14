@@ -4,7 +4,7 @@ PROJECT (urlsort)
 SET(CMAKE_C_FLAGS "-std=c99")
 
 SET(urlsort_SRCS
-	url_sort.c
+	urlsort_main.c
 )
 
 ADD_EXECUTABLE(urlsort ${urlsort_SRCS})

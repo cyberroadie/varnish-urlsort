@@ -1,4 +1,3 @@
-C{
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -54,15 +53,5 @@ static char * urlsort(char *in) {
   strcat(result, sorted_url);
   result[strlen(result) - 1] = 0;
   return result;
-}
-}C
-
-sub vcl_recv {
-    C{
-       const char *url = VRT_r_req_url(sp);
-       char *urldup = strdup(url);
-       char *sorted = urlsort(urldup);
-       VRT_l_req_url(sp, sorted, vrt_magic_string_end);
-    }C
 }
 
