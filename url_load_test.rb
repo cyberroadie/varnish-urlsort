@@ -25,9 +25,9 @@ threads = []
 (0..9).each do |x|
   threads << Thread.new(create_url(params.shuffle)) { |shuffled_params|
      h = Net::HTTP.new("localhost", 80)
-     (0..9).each do |i|
+     (0..999).each do |i|
           resp, data = h.get(shuffled_params, nil)
-          puts "GET http://localhost#{shuffled_params}"
+ #         puts "GET http://localhost#{shuffled_params}"
      end
   }
 end
