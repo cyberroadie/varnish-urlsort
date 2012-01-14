@@ -28,30 +28,46 @@ static void sortparam(Node *tree, char *out) {
   if(tree->left) sortparam(tree->left, out);
 }
 
+void freetree(Node *root)
+{
+  if(root!=NULL)
+  {
+    freetree(root->left);
+    freetree(root->right);
+    free(root);
+  }
+}
+
 static char * urlsort(char *in) {
   Node *root, *current;
   root = NULL;
 
-  char *tok, *result, *sorted_url;
-  sorted_url = (char*) malloc(strlen(in) + 1);
-  result = (char*) malloc(strlen(in) + 1);
-  result = strtok(in, "?");
-
-  while(1) {
-    current = (Node* )malloc(sizeof(Node));
-    current->left = current->right = NULL;
-    tok = strtok(NULL, "&");
-    if(tok == NULL) break;
-    current->value = tok;
-    insert(&root, current);
+  char *token, *sorted_params, *url, *params, *tmp;
+  sorted_params = (char*) malloc(strlen(in) + 1);
+  
+  url = strdup(in);
+  params = strchr(url, '?');
+  if(params == NULL) return in;
+  params[0] = '\0';
+  
+  for(token = strtok_r(++params, "&", &tmp); token; token = strtok_r(NULL , "&", &tmp)) {
+      current = (Node* )malloc(sizeof(Node));
+      current->left = current->right = NULL;
+      if(token == NULL) break;
+      current->value = token;
+      insert(&root, current);
   }
-
+  
   if(root == NULL) return in;
-  sorted_url[0] = 0;
-  sortparam(root, sorted_url);
-  strcat(result, "?");
-  strcat(result, sorted_url);
-  result[strlen(result) - 1] = 0;
-  return result;
+  sorted_params[0] = 0;
+  sortparam(root, sorted_params);
+  strcat(url, "?");
+  strcat(url, sorted_params);
+  url[strlen(url) - 1] = 0;
+  free(token);
+  free(sorted_params);
+  free(tmp);
+  freetree(root);
+  return url;
 }
 
