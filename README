@@ -3,11 +3,11 @@ Contents:
 ./main  - the urlsort program with main() for cli use and as embedded varnish C code 
 ./vmod  - the urlsort program as a Varnish module
 
-Building the module:
+Building the module (the RST2MAN is optional):
+cd vmod
 VARNISHSRC=~/Source/varnish-3.0.2 VMODDIR=/usr/local/lib/varnish/vmods/ RST2MAN=/opt/local/bin/rst2man-2.7.py ./configure
 make
 sudo make install
-
 
 Add to default.vcl:
 include "urlsort.vcl";
