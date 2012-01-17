@@ -62,8 +62,8 @@ static char * urlsort(char *in) {
   sorted_params[0] = 0;
   sortparam(root, sorted_params);
   strcat(url, "?");
+  sorted_params[strlen(sorted_params) - 1] = 0; 
   strcat(url, sorted_params);
-  url[strlen(url) - 1] = 0;
   free(token);
   free(sorted_params);
   free(tmp);
