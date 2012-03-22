@@ -43,7 +43,7 @@ static char * urlsort(char *in) {
   root = NULL;
 
   char *token, *sorted_params, *url, *params, *tmp;
-  sorted_params = (char*) malloc(strlen(in) + 1);
+  sorted_params = (char*) malloc(strlen(in));
   
   url = strdup(in);
   params = strchr(url, '?');
