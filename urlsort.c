@@ -42,12 +42,18 @@ static char * urlsort(char *in) {
   Node *root, *current;
   root = NULL;
 
-  char *token, *sorted_params, *url, *params, *tmp;
-  sorted_params = (char*) malloc(strlen(in));
-  
+  char *url, *params;
   url = strdup(in);
   params = strchr(url, '?');
-  if(params == NULL) return in;
+  if(params == NULL) {
+    free(url);
+    free(params);
+    return in;
+  }
+
+  char *token, *sorted_params, *tmp;
+  sorted_params = (char*) malloc(strlen(in));
+  
   params[0] = '\0';
   
   for(token = strtok_r(++params, "&", &tmp); token; token = strtok_r(NULL , "&", &tmp)) {
